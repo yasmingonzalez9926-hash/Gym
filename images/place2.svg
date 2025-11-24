@@ -1,19 +1,54 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
   <defs>
-    <linearGradient id="g2" x1="0" x2="1">
-      <stop offset="0%" stop-color="#e0f7fa"/>
-      <stop offset="100%" stop-color="#b2ebf2"/>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a4d2e"/>
+      <stop offset="50%" stop-color="#4f9d69"/>
+      <stop offset="100%" stop-color="#ffd700"/>
     </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#fff" opacity="0.8"/>
+      <stop offset="100%" stop-color="#ffd700" opacity="0.3"/>
+    </radialGradient>
   </defs>
   <rect width="100%" height="100%" fill="url(#g2)"/>
-  <g transform="translate(80,120)">
-    <rect x="0" y="0" width="1040" height="460" rx="24" fill="#fff" opacity="0.95"/>
-    <text x="520" y="230" font-size="48" text-anchor="middle" fill="#165b33" font-family="Verdana">Group Class Studio</text>
-  </g>
-  <g transform="translate(140,420)">
-    <circle cx="60" cy="40" r="36" fill="#c41e3a"/>
-    <circle cx="160" cy="40" r="36" fill="#ffd700"/>
-    <circle cx="260" cy="40" r="36" fill="#165b33"/>
-    <text x="520" y="60" font-size="24" fill="#333">Yoga • Spinning • Zumba</text>
+  
+  <!-- Snowflakes -->
+  <text x="200" y="80" font-size="45" fill="white" opacity="0.9">❅</text>
+  <text x="450" y="140" font-size="38" fill="white" opacity="0.85">❄</text>
+  <text x="750" y="100" font-size="50" fill="white" opacity="0.9">❆</text>
+  <text x="950" y="160" font-size="42" fill="white" opacity="0.8">❅</text>
+  <text x="250" y="680" font-size="48" fill="white" opacity="0.9">❄</text>
+  <text x="900" y="720" font-size="40" fill="white" opacity="0.85">❆</text>
+  
+  <!-- Santa's sleigh -->
+  <ellipse cx="300" cy="180" rx="80" ry="35" fill="#c41e3a"/>
+  <rect x="240" y="165" width="120" height="30" rx="15" fill="#8B0000"/>
+  <path d="M 220,195 Q 215,210 230,215 L 370,215 Q 385,210 380,195 Z" fill="#FFD700"/>
+  
+  <!-- Presents in sleigh -->
+  <rect x="260" y="150" width="30" height="30" fill="#ffd700"/>
+  <rect x="265" y="145" width="20" height="40" fill="#c41e3a" opacity="0.6"/>
+  <rect x="300" y="145" width="28" height="28" fill="#fff"/>
+  <rect x="308" y="140" width="12" height="38" fill="#165b33" opacity="0.7"/>
+  <rect x="335" y="150" width="25" height="25" fill="#c41e3a"/>
+  <rect x="342" y="145" width="11" height="35" fill="#ffd700" opacity="0.6"/>
+  
+  <!-- Reindeer -->
+  <ellipse cx="410" cy="170" rx="25" ry="20" fill="#8B4513"/>
+  <circle cx="410" cy="165" r="15" fill="#A0522D"/>
+  <circle cx="405" cy="162" r="3" fill="#000"/>
+  <circle cx="420" cy="160" r="5" fill="#c41e3a"/>
+  <path d="M 400,155 L 395,145 M 400,155 L 403,148" stroke="#8B4513" stroke-width="3" fill="none"/>
+  <path d="M 415,155 L 420,145 M 415,155 L 412,148" stroke="#8B4513" stroke-width="3" fill="none"/>
+  
+  <!-- Stars -->
+  <text x="500" y="120" font-size="35" fill="#ffd700">⭐</text>
+  <text x="650" y="90" font-size="30" fill="#ffd700">✨</text>
+  <text x="800" y="140" font-size="32" fill="#ffd700">⭐</text>
+  
+  <g transform="translate(80,380)">
+    <rect x="0" y="0" width="1040" height="340" rx="24" fill="#fff" opacity="0.95"/>
+    <text x="520" y="120" font-size="85" text-anchor="middle" fill="#165b33" font-family="Verdana" font-weight="bold">🎅 CLASS STUDIO 🎄</text>
+    <text x="520" y="220" font-size="45" text-anchor="middle" fill="#c41e3a" font-family="Verdana">Yoga • Spin • Zumba</text>
   </g>
 </svg>
