@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - PowerFit Gym</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .shop-page {
+            padding: 120px 20px 80px;
+            background: linear-gradient(to bottom, #f0f8ff 0%, #e6f2ff 100%);
+            min-height: 100vh;
+        }
+        
+        .shop-page .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .shop-page h1 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .shop-page .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+        
+        .shop-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.2);
+        }
+        
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .category-card h3 {
+            color: #c41e3a;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .category-card p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .shop-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .product-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .product-card .description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            color: #c41e3a;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .add-to-cart {
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: #333;
+            margin: 40px 0 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #c41e3a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit Gym 🎄</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="shop-page">
+        <div class="container">
+            <h1>🎁 PowerFit Shop 🎄</h1>
+            <p class="subtitle">Fuel your fitness journey with premium supplements and gear!</p>
+            
+            <div class="shop-categories">
+                <div class="category-card" onclick="scrollToSection('protein')">
+                    <div class="category-icon">💪</div>
+                    <h3>Protein Powder</h3>
+                    <p>Whey, isolate, plant-based, and mass gainers</p>
+                </div>
+                
+                <div class="category-card" onclick="scrollToSection('preworkout')">
+                    <div class="category-icon">⚡</div>
+                    <h3>Pre-Workout</h3>
+                    <p>Energy boosters and performance enhancers</p>
+                </div>
+                
+                <div class="category-card" onclick="scrollToSection('bars')">
+                    <div class="category-icon">🍫</div>
+                    <h3>Protein Bars</h3>
+                    <p>High-protein snacks and energy bars</p>
+                </div>
+            </div>
+            
+            <h2 class="section-title" id="protein">💪 Protein Powder</h2>
+            
+            <div class="shop-products">
+                <div class="product-card">
+                    <div class="product-icon">🥛</div>
+                    <h4>Whey Protein Isolate</h4>
+                    <p class="description">25g protein per serving, chocolate flavor</p>
+                    <div class="product-price">$49.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🌱</div>
+                    <h4>Plant Protein</h4>
+                    <p class="description">Vegan, 20g protein, vanilla flavor</p>
+                    <div class="product-price">$39.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">💪</div>
+                    <h4>Mass Gainer</h4>
+                    <p class="description">50g protein, 1000 calories, chocolate</p>
+                    <div class="product-price">$59.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🥛</div>
+                    <h4>Whey Concentrate</h4>
+                    <p class="description">24g protein, vanilla, 30 servings</p>
+                    <div class="product-price">$39.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <h2 class="section-title" id="preworkout">⚡ Pre-Workout</h2>
+            
+            <div class="shop-products">
+                <div class="product-card">
+                    <div class="product-icon">⚡</div>
+                    <h4>Pre-Workout Energy</h4>
+                    <p class="description">Explosive energy and focus, 30 servings</p>
+                    <div class="product-price">$34.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🥤</div>
+                    <h4>BCAA Energy Drink</h4>
+                    <p class="description">5g BCAAs, zero sugar, 12 cans</p>
+                    <div class="product-price">$29.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">💊</div>
+                    <h4>Creatine Monohydrate</h4>
+                    <p class="description">5g per serving, unflavored, 60 servings</p>
+                    <div class="product-price">$19.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🧃</div>
+                    <h4>Electrolyte Hydration</h4>
+                    <p class="description">Zero calories, 40 servings, mixed flavors</p>
+                    <div class="product-price">$22.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <h2 class="section-title" id="bars">🍫 Protein Bars</h2>
+            
+            <div class="shop-products">
+                <div class="product-card">
+                    <div class="product-icon">🍫</div>
+                    <h4>Protein Bars (12 Pack)</h4>
+                    <p class="description">20g protein, low sugar, multiple flavors</p>
+                    <div class="product-price">$24.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🍪</div>
+                    <h4>Protein Cookies (6 Pack)</h4>
+                    <p class="description">15g protein, soft baked, delicious</p>
+                    <div class="product-price">$18.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🥜</div>
+                    <h4>Peanut Butter Protein</h4>
+                    <p class="description">Natural, 8g protein per serving</p>
+                    <div class="product-price">$12.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-icon">🧊</div>
+                    <h4>Gym Shaker Bottle</h4>
+                    <p class="description">BPA-free, 28oz, leak-proof design</p>
+                    <div class="product-price">$14.99</div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>🎄 &copy; 2025 PowerFit Gym. Merry Christmas & Happy New Year! 🎅</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scroll to sections with custom animation
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const targetPosition = section.offsetTop - 100; // 100px offset for fixed header
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 1000; // 1 second animation
+                let start = null;
+                
+                function animation(currentTime) {
+                    if (start === null) start = currentTime;
+                    const timeElapsed = currentTime - start;
+                    const run = ease(timeElapsed, startPosition, distance, duration);
+                    window.scrollTo(0, run);
+                    if (timeElapsed < duration) requestAnimationFrame(animation);
+                }
+                
+                function ease(t, b, c, d) {
+                    t /= d / 2;
+                    if (t < 1) return c / 2 * t * t + b;
+                    t--;
+                    return -c / 2 * (t * (t - 2) - 1) + b;
+                }
+                
+                requestAnimationFrame(animation);
+            }
+        }
+        
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h4').textContent;
+                const productPrice = productCard.querySelector('.product-price').textContent;
+                
+                alert('🎄 Added to Cart! 🎅\n\n' + productName + '\n' + productPrice + '\n\nContinue shopping or checkout at the gym!');
+            });
+        });
+    </script>
+</body>
+</html>

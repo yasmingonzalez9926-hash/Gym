@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - PowerFit Gym</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checkout-container {
+            max-width: 800px;
+            margin: 120px auto 60px;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .checkout-header h1 {
+            color: #c41e3a;
+            margin-bottom: 10px;
+        }
+        
+        .plan-summary {
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .plan-summary h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .plan-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .total-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            border-top: 2px solid rgba(255,255,255,0.3);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .checkout-form {
+            margin-top: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+        
+        .card-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 32px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(196, 30, 58, 0.3);
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-link a {
+            color: #c41e3a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkout-container {
+                margin: 100px 20px 40px;
+                padding: 25px;
+            }
+        }
+        
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.4s;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+            background: #f0f0f0;
+        }
+        
+        .success-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 40px;
+            animation: scaleUp 0.5s;
+        }
+        
+        @keyframes scaleUp {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .modal-content h2 {
+            color: #22c55e;
+            margin-bottom: 12px;
+            font-size: 1.6rem;
+        }
+        
+        .modal-content p {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .order-details {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .order-details p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 0.95rem;
+        }
+        
+        .order-details p strong {
+            color: #c41e3a;
+        }
+        
+        .modal-btn {
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.3s;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit Gym 🎄</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>🎄 Complete Your Membership 🎄</h1>
+            <p>You're one step away from starting your fitness journey!</p>
+        </div>
+
+        <div class="plan-summary">
+            <h2 id="plan-name">6 Months Membership</h2>
+            <div class="plan-details">
+                <span>Monthly Rate:</span>
+                <span id="monthly-rate">$40/month</span>
+            </div>
+            <div class="plan-details">
+                <span>Duration:</span>
+                <span id="duration">6 months</span>
+            </div>
+            <div class="plan-details">
+                <span>Savings:</span>
+                <span id="savings">$60</span>
+            </div>
+            <div class="total-amount">
+                <div class="plan-details">
+                    <span>Total Due Today:</span>
+                    <span id="total-amount">$240</span>
+                </div>
+            </div>
+        </div>
+
+        <form class="checkout-form" id="checkout-form">
+            <div class="form-section">
+                <h3>Personal Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Billing Address</h3>
+                <div class="form-group">
+                    <label>Street Address *</label>
+                    <input type="text" name="address" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State *</label>
+                        <input type="text" name="state" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ZIP Code *</label>
+                        <input type="text" name="zip" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Country *</label>
+                        <select name="country" required>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Payment Information</h3>
+                <div class="form-group">
+                    <label>Card Number *</label>
+                    <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                    <div class="card-icons">
+                        <div class="card-icon">VISA</div>
+                        <div class="card-icon">MC</div>
+                        <div class="card-icon">AMEX</div>
+                        <div class="card-icon">DISC</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cardholder Name *</label>
+                    <input type="text" name="cardName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiration Date *</label>
+                        <input type="text" name="expiry" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CVV *</label>
+                        <input type="text" name="cvv" placeholder="123" maxlength="4" required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">🎁 Complete Payment & Join Now 🎁</button>
+        </form>
+
+        <div class="back-link">
+            <a href="pricing.html">← Back to Membership Plans</a>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <div class="success-icon">✓</div>
+            <h2>🎄 Payment Successful! 🎅</h2>
+            <p>Welcome to PowerFit Gym!</p>
+            
+            <div class="order-details">
+                <p><span>Membership Plan:</span> <strong id="modal-plan">6 Months</strong></p>
+                <p><span>Monthly Rate:</span> <strong id="modal-rate">$40/month</strong></p>
+                <p><span>Total Paid:</span> <strong id="modal-total">$240</strong></p>
+            </div>
+            
+            <p>🎁 Your membership has been activated!</p>
+            <p>📧 Confirmation email sent</p>
+            <p>💪 See you at the gym!</p>
+            
+            <button class="modal-btn" onclick="closeModal()">Start Your Journey</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>🎄 &copy; 2025 PowerFit Gym. Merry Christmas & Happy New Year! 🎅</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get plan details from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan') || '6';
+        
+        // Plan pricing data
+        const plans = {
+            '1': { name: '1 Month', monthly: 50, duration: 1, savings: 0 },
+            '6': { name: '6 Months', monthly: 40, duration: 6, savings: 60 },
+            '12': { name: '12 Months', monthly: 30, duration: 12, savings: 240 }
+        };
+        
+        const selectedPlan = plans[plan];
+        const total = selectedPlan.monthly * selectedPlan.duration;
+        
+        // Update page with selected plan details
+        document.getElementById('plan-name').textContent = selectedPlan.name + ' Membership';
+        document.getElementById('monthly-rate').textContent = '$' + selectedPlan.monthly + '/month';
+        document.getElementById('duration').textContent = selectedPlan.duration + ' month' + (selectedPlan.duration > 1 ? 's' : '');
+        document.getElementById('savings').textContent = selectedPlan.savings > 0 ? '$' + selectedPlan.savings : 'None';
+        document.getElementById('total-amount').textContent = '$' + total;
+        
+        // Format card number input
+        document.querySelector('input[name="cardNumber"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+        
+        // Format expiry date
+        document.querySelector('input[name="expiry"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+        
+        // Handle form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Update modal with plan details
+            document.getElementById('modal-plan').textContent = selectedPlan.name;
+            document.getElementById('modal-rate').textContent = '$' + selectedPlan.monthly + '/month';
+            document.getElementById('modal-total').textContent = '$' + total;
+            
+            // Show success modal
+            document.getElementById('successModal').style.display = 'block';
+        });
+        
+        // Close modal and redirect to home
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+            window.location.href = 'index.html';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
