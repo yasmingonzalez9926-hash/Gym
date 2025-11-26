@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - PowerFit Gym</title>
+    <title>Greiðsla - PowerFit Gym</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .checkout-container {
@@ -304,40 +304,40 @@
 <body>
     <header>
         <nav>
-            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit Gym 🎄</a></div>
+            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
             <ul class="nav-links">
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="index.html#home">Heim</a></li>
+                <li><a href="index.html#about">Um okkur</a></li>
+                <li><a href="pricing.html">Verðskrá</a></li>
+                <li><a href="shop.html">Verslun</a></li>
+                <li><a href="index.html#contact">Hafa samband</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="checkout-container">
         <div class="checkout-header">
-            <h1>🎄 Complete Your Membership 🎄</h1>
-            <p>You're one step away from starting your fitness journey!</p>
+            <h1>🎄 Ljúka Áskrift 🎄</h1>
+            <p>Þú ert einu skrefi frá því að hefja líkamsræktarferðina þína!</p>
         </div>
 
         <div class="plan-summary">
-            <h2 id="plan-name">6 Months Membership</h2>
+            <h2 id="plan-name">6 Mánaða Áskrift</h2>
             <div class="plan-details">
-                <span>Monthly Rate:</span>
-                <span id="monthly-rate">$40/month</span>
+                <span>Mánaðarlegt Verð:</span>
+                <span id="monthly-rate">$40/mánuður</span>
             </div>
             <div class="plan-details">
-                <span>Duration:</span>
-                <span id="duration">6 months</span>
+                <span>Lengd:</span>
+                <span id="duration">6 mánuðir</span>
             </div>
             <div class="plan-details">
-                <span>Savings:</span>
+                <span>Sparnar:</span>
                 <span id="savings">$60</span>
             </div>
             <div class="total-amount">
                 <div class="plan-details">
-                    <span>Total Due Today:</span>
+                    <span>Heildarupphæð Í dag:</span>
                     <span id="total-amount">$240</span>
                 </div>
             </div>
@@ -345,66 +345,66 @@
 
         <form class="checkout-form" id="checkout-form">
             <div class="form-section">
-                <h3>Personal Information</h3>
+                <h3>Persónuupplýsingar</h3>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>First Name *</label>
+                        <label>Fornafn *</label>
                         <input type="text" name="firstName" required>
                     </div>
                     <div class="form-group">
-                        <label>Last Name *</label>
+                        <label>Eftirnafn *</label>
                         <input type="text" name="lastName" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Email *</label>
+                        <label>Netfang *</label>
                         <input type="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label>Phone *</label>
+                        <label>Sími *</label>
                         <input type="tel" name="phone" required>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <h3>Billing Address</h3>
+                <h3>Reikningsfang</h3>
                 <div class="form-group">
-                    <label>Street Address *</label>
+                    <label>Götuheiti *</label>
                     <input type="text" name="address" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>City *</label>
+                        <label>Borgur *</label>
                         <input type="text" name="city" required>
                     </div>
                     <div class="form-group">
-                        <label>State *</label>
+                        <label>Sveið *</label>
                         <input type="text" name="state" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>ZIP Code *</label>
+                        <label>Póstnúmer *</label>
                         <input type="text" name="zip" required>
                     </div>
                     <div class="form-group">
-                        <label>Country *</label>
+                        <label>Land *</label>
                         <select name="country" required>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="Other">Other</option>
+                            <option value="US">Bandaríkin</option>
+                            <option value="CA">Kanada</option>
+                            <option value="UK">Bretland</option>
+                            <option value="Other">Annað</option>
                         </select>
                     </div>
                 </div>
             </div>
 
             <div class="form-section">
-                <h3>Payment Information</h3>
+                <h3>Greiðsluupplýsingar</h3>
                 <div class="form-group">
-                    <label>Card Number *</label>
+                    <label>Kortanúmer *</label>
                     <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
                     <div class="card-icons">
                         <div class="card-icon">VISA</div>
@@ -414,13 +414,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Cardholder Name *</label>
+                    <label>Nafn Korthafa *</label>
                     <input type="text" name="cardName" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Expiration Date *</label>
-                        <input type="text" name="expiry" placeholder="MM/YY" maxlength="5" required>
+                        <label>Gildistími *</label>
+                        <input type="text" name="expiry" placeholder="MM/ÁÁ" maxlength="5" required>
                     </div>
                     <div class="form-group">
                         <label>CVV *</label>
@@ -429,11 +429,11 @@
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">🎁 Complete Payment & Join Now 🎁</button>
+            <button type="submit" class="submit-btn">🎁 Ljúka Greiðslu & Skrá Núna 🎁</button>
         </form>
 
         <div class="back-link">
-            <a href="pricing.html">← Back to Membership Plans</a>
+            <a href="pricing.html">← Til baka í Áskriftir</a>
         </div>
     </div>
     
@@ -442,26 +442,26 @@
         <div class="modal-content">
             <button class="close-btn" onclick="closeModal()">&times;</button>
             <div class="success-icon">✓</div>
-            <h2>🎄 Payment Successful! 🎅</h2>
-            <p>Welcome to PowerFit Gym!</p>
+            <h2>🎄 Greiðsla Tókst! 🎅</h2>
+            <p>Velkomin í PowerFit Gym!</p>
             
             <div class="order-details">
-                <p><span>Membership Plan:</span> <strong id="modal-plan">6 Months</strong></p>
-                <p><span>Monthly Rate:</span> <strong id="modal-rate">$40/month</strong></p>
-                <p><span>Total Paid:</span> <strong id="modal-total">$240</strong></p>
+                <p><span>Áskriftaráætlun:</span> <strong id="modal-plan">6 Mánuðir</strong></p>
+                <p><span>Mánaðarlegt Verð:</span> <strong id="modal-rate">$40/mánuður</strong></p>
+                <p><span>Heildarupphæð:</span> <strong id="modal-total">$240</strong></p>
             </div>
             
-            <p>🎁 Your membership has been activated!</p>
-            <p>📧 Confirmation email sent</p>
-            <p>💪 See you at the gym!</p>
+            <p>🎁 Áskriftin þín hefur verið virkjuð!</p>
+            <p>📧 Staðfestingartölvupóstur sendur</p>
+            <p>💪 Sjáumst í líkamsræktinni!</p>
             
-            <button class="modal-btn" onclick="closeModal()">Start Your Journey</button>
+            <button class="modal-btn" onclick="closeModal()">Byrja Ferðina</button>
         </div>
     </div>
 
     <footer>
         <div class="container">
-            <p>🎄 &copy; 2025 PowerFit Gym. Merry Christmas & Happy New Year! 🎅</p>
+            <p>🎄 &copy; 2025 PowerFit Gym. Glegileg Jól & Farsælt Komandi Ár! 🎅</p>
             <div class="social-links">
                 <a href="#">Facebook</a>
                 <a href="#">Instagram</a>
@@ -477,19 +477,19 @@
         
         // Plan pricing data
         const plans = {
-            '1': { name: '1 Month', monthly: 50, duration: 1, savings: 0 },
-            '6': { name: '6 Months', monthly: 40, duration: 6, savings: 60 },
-            '12': { name: '12 Months', monthly: 30, duration: 12, savings: 240 }
+            '1': { name: '1 Mánuður', monthly: 50, duration: 1, savings: 0 },
+            '6': { name: '6 Mánuðir', monthly: 40, duration: 6, savings: 60 },
+            '12': { name: '12 Mánuðir', monthly: 30, duration: 12, savings: 240 }
         };
         
         const selectedPlan = plans[plan];
         const total = selectedPlan.monthly * selectedPlan.duration;
         
         // Update page with selected plan details
-        document.getElementById('plan-name').textContent = selectedPlan.name + ' Membership';
-        document.getElementById('monthly-rate').textContent = '$' + selectedPlan.monthly + '/month';
-        document.getElementById('duration').textContent = selectedPlan.duration + ' month' + (selectedPlan.duration > 1 ? 's' : '');
-        document.getElementById('savings').textContent = selectedPlan.savings > 0 ? '$' + selectedPlan.savings : 'None';
+        document.getElementById('plan-name').textContent = selectedPlan.name + ' Áskrift';
+        document.getElementById('monthly-rate').textContent = '$' + selectedPlan.monthly + '/mánuður';
+        document.getElementById('duration').textContent = selectedPlan.duration + ' mánuð' + (selectedPlan.duration > 1 ? 'ir' : 'ur');
+        document.getElementById('savings').textContent = selectedPlan.savings > 0 ? '$' + selectedPlan.savings : 'Engar';
         document.getElementById('total-amount').textContent = '$' + total;
         
         // Format card number input
@@ -514,7 +514,7 @@
             
             // Update modal with plan details
             document.getElementById('modal-plan').textContent = selectedPlan.name;
-            document.getElementById('modal-rate').textContent = '$' + selectedPlan.monthly + '/month';
+            document.getElementById('modal-rate').textContent = '$' + selectedPlan.monthly + '/mánuður';
             document.getElementById('modal-total').textContent = '$' + total;
             
             // Show success modal

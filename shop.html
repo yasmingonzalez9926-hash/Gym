@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop - PowerFit Gym</title>
+    <title>Verslun - PowerFit Líkamsræktarstöð</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .shop-page {
@@ -82,6 +82,8 @@
             text-align: center;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
         }
         
         .product-card:hover {
@@ -103,6 +105,7 @@
             color: #666;
             font-size: 0.9rem;
             margin-bottom: 15px;
+            flex-grow: 1;
         }
         
         .product-price {
@@ -121,11 +124,27 @@
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.4s ease;
+            margin-top: auto;
         }
         
         .add-to-cart:hover {
             transform: translateY(-2px);
+        }
+        
+        .add-to-cart.added {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            transform: scale(1.05);
+        }
+        
+        @keyframes addedPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1.05); }
+        }
+        
+        .add-to-cart.added {
+            animation: addedPulse 0.4s ease;
         }
         
         .section-title {
@@ -135,152 +154,427 @@
             padding-bottom: 10px;
             border-bottom: 3px solid #c41e3a;
         }
+        
+        /* Cart Icon */
+        .cart-icon {
+            position: relative;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), inset 0 0 10px rgba(255, 215, 0, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .cart-icon:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 215, 0, 1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 4px 15px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ffd700;
+            color: #c41e3a;
+            font-size: 0.8rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .cart-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .cart-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .cart-header h2 {
+            margin: 0;
+            color: #c41e3a;
+        }
+        
+        .cart-header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .clear-cart-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 90px;
+        }
+        
+        .clear-cart-btn:hover {
+            background: #ff5252;
+        }
+        
+        .clear-cart-btn.confirm-mode {
+            background: white;
+            color: #ff3838;
+            border: 2px solid #ff3838;
+            animation: pulse 0.5s ease;
+        }
+        
+        .clear-cart-btn.confirm-mode:hover {
+            background: #fff5f5;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .close-cart:hover {
+            color: #c41e3a;
+        }
+        
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 15px;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: #c41e3a;
+            font-weight: bold;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .qty-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .qty-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .remove-btn {
+            background: #c41e3a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .remove-btn:hover {
+            background: #a01830;
+        }
+        
+        .cart-footer {
+            padding: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit Gym 🎄</a></div>
-            <ul class="nav-links">
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="shop.html">Shop</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
+            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Heim</a></li>
+                    <li><a href="index.html#about">Um okkur</a></li>
+                    <li><a href="pricing.html">Verðskrá</a></li>
+                    <li><a href="shop.html">Verslun</a></li>
+                    <li><a href="index.html#contact">Hafa samband</a></li>
+                </ul>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
         </nav>
     </header>
 
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>🛒 Karfan Þín</h2>
+                <div class="cart-header-buttons">
+                    <button class="clear-cart-btn" id="clearCartBtn" onclick="clearCart()">Hreinsa Allt</button>
+                    <button class="close-cart" onclick="toggleCart()">✕</button>
+                </div>
+            </div>
+            <div id="cartItems" class="cart-items">
+                <p class="empty-cart">Karfan þín er tóm</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Samtals:</strong>
+                    <span id="cartTotal">$0.00</span>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()">Halda áfram í Greisðslu</button>
+            </div>
+        </div>
+    </div>
+
     <section class="shop-page">
         <div class="container">
-            <h1>🎁 PowerFit Shop 🎄</h1>
-            <p class="subtitle">Fuel your fitness journey with premium supplements and gear!</p>
+            <h1>🎁 PowerFit Verslun 🎄</h1>
+            <p class="subtitle">Eldsneýtu líkamsræktarferðina með úrvalsvörum og búnaði!</p>
             
             <div class="shop-categories">
                 <div class="category-card" onclick="scrollToSection('protein')">
                     <div class="category-icon">💪</div>
-                    <h3>Protein Powder</h3>
-                    <p>Whey, isolate, plant-based, and mass gainers</p>
+                    <h3>Próteínduft</h3>
+                    <p>Whey, einangrast, grænuduft og mussluaukandi</p>
                 </div>
                 
                 <div class="category-card" onclick="scrollToSection('preworkout')">
                     <div class="category-icon">⚡</div>
-                    <h3>Pre-Workout</h3>
-                    <p>Energy boosters and performance enhancers</p>
+                    <h3>Æfingaörvandi</h3>
+                    <p>Orkuörvandi og frammistöðubætur</p>
                 </div>
                 
                 <div class="category-card" onclick="scrollToSection('bars')">
                     <div class="category-icon">🍫</div>
-                    <h3>Protein Bars</h3>
-                    <p>High-protein snacks and energy bars</p>
+                    <h3>Próteínstangir</h3>
+                    <p>Próteínríkir snarl og orkustangir</p>
                 </div>
             </div>
             
-            <h2 class="section-title" id="protein">💪 Protein Powder</h2>
+            <h2 class="section-title" id="protein">💪 Próteínduft</h2>
             
             <div class="shop-products">
-                <div class="product-card">
+                <div class="product-card" data-id="1" data-name="Whey Próteín Einangrast" data-price="49.99">
                     <div class="product-icon">🥛</div>
-                    <h4>Whey Protein Isolate</h4>
-                    <p class="description">25g protein per serving, chocolate flavor</p>
+                    <h4>Whey Próteín Einangrast</h4>
+                    <p class="description">25g próteín á skammt, súkkulauðibragð</p>
                     <div class="product-price">$49.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="2" data-name="Grænupróteín" data-price="39.99">
                     <div class="product-icon">🌱</div>
-                    <h4>Plant Protein</h4>
-                    <p class="description">Vegan, 20g protein, vanilla flavor</p>
+                    <h4>Grænupróteín</h4>
+                    <p class="description">Vegan, 20g próteín, veníllubrauð</p>
                     <div class="product-price">$39.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="3" data-name="Musslaukandi" data-price="59.99">
                     <div class="product-icon">💪</div>
-                    <h4>Mass Gainer</h4>
-                    <p class="description">50g protein, 1000 calories, chocolate</p>
+                    <h4>Musslaukandi</h4>
+                    <p class="description">50g próteín, 1000 kaloriu, súkkulaði</p>
                     <div class="product-price">$59.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="4" data-name="Whey Safnpróteín" data-price="39.99">
                     <div class="product-icon">🥛</div>
-                    <h4>Whey Concentrate</h4>
-                    <p class="description">24g protein, vanilla, 30 servings</p>
+                    <h4>Whey Safnpróteín</h4>
+                    <p class="description">24g próteín, venílla, 30 skammtar</p>
                     <div class="product-price">$39.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
             </div>
             
-            <h2 class="section-title" id="preworkout">⚡ Pre-Workout</h2>
+            <h2 class="section-title" id="preworkout">⚡ Æfingaörvandi</h2>
             
             <div class="shop-products">
-                <div class="product-card">
+                <div class="product-card" data-id="5" data-name="Æfingaorka" data-price="34.99">
                     <div class="product-icon">⚡</div>
-                    <h4>Pre-Workout Energy</h4>
-                    <p class="description">Explosive energy and focus, 30 servings</p>
+                    <h4>Æfingaorka</h4>
+                    <p class="description">Sprengileg orka og einbeiting, 30 skammtar</p>
                     <div class="product-price">$34.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="6" data-name="BCAA Orkudrykkur" data-price="29.99">
                     <div class="product-icon">🥤</div>
-                    <h4>BCAA Energy Drink</h4>
-                    <p class="description">5g BCAAs, zero sugar, 12 cans</p>
+                    <h4>BCAA Orkudrykkur</h4>
+                    <p class="description">5g BCAAs, ekkert súkur, 12 dillir</p>
                     <div class="product-price">$29.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="7" data-name="Kreatín Mónóhýdrat" data-price="19.99">
                     <div class="product-icon">💊</div>
-                    <h4>Creatine Monohydrate</h4>
-                    <p class="description">5g per serving, unflavored, 60 servings</p>
+                    <h4>Kreatín Mónóhýdrat</h4>
+                    <p class="description">5g á skammt, bræddulaust, 60 skammtar</p>
                     <div class="product-price">$19.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="8" data-name="Rafmagnsefna Vokvi" data-price="22.99">
                     <div class="product-icon">🧃</div>
-                    <h4>Electrolyte Hydration</h4>
-                    <p class="description">Zero calories, 40 servings, mixed flavors</p>
+                    <h4>Rafmagnsefna Vokvi</h4>
+                    <p class="description">Engar kaloríur, 40 skammtar, blandöð bræðslö</p>
                     <div class="product-price">$22.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
             </div>
             
-            <h2 class="section-title" id="bars">🍫 Protein Bars</h2>
+            <h2 class="section-title" id="bars">🍫 Próteinstan gir</h2>
             
             <div class="shop-products">
-                <div class="product-card">
+                <div class="product-card" data-id="9" data-name="Próteínstangir (12 Pakki)" data-price="24.99">
                     <div class="product-icon">🍫</div>
-                    <h4>Protein Bars (12 Pack)</h4>
-                    <p class="description">20g protein, low sugar, multiple flavors</p>
+                    <h4>Próteínstangir (12 Pakki)</h4>
+                    <p class="description">20g próteín, lítill súkur, margs konar bræðslö</p>
                     <div class="product-price">$24.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="10" data-name="Próteínkökur (6 Pakki)" data-price="18.99">
                     <div class="product-icon">🍪</div>
-                    <h4>Protein Cookies (6 Pack)</h4>
-                    <p class="description">15g protein, soft baked, delicious</p>
+                    <h4>Próteínkökur (6 Pakki)</h4>
+                    <p class="description">15g próteín, mjúkbakaðar, gjafarsætar</p>
                     <div class="product-price">$18.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="11" data-name="Hnetusmör Próteín" data-price="12.99">
                     <div class="product-icon">🥜</div>
-                    <h4>Peanut Butter Protein</h4>
-                    <p class="description">Natural, 8g protein per serving</p>
+                    <h4>Hnetusmör Próteín</h4>
+                    <p class="description">Náttúrulegt, 8g próteín á skammt</p>
                     <div class="product-price">$12.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card">
+                <div class="product-card" data-id="12" data-name="Líkamsrækt Hristi" data-price="14.99">
                     <div class="product-icon">🧊</div>
-                    <h4>Gym Shaker Bottle</h4>
-                    <p class="description">BPA-free, 28oz, leak-proof design</p>
+                    <h4>Líkamsrækt Hristi</h4>
+                    <p class="description">BPA-frjals, 28oz, lekaheld hönnun</p>
                     <div class="product-price">$14.99</div>
-                    <button class="add-to-cart">Add to Cart</button>
+                    <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
             </div>
         </div>
@@ -288,7 +582,7 @@
 
     <footer>
         <div class="container">
-            <p>🎄 &copy; 2025 PowerFit Gym. Merry Christmas & Happy New Year! 🎅</p>
+            <p>🎄 &copy; 2025 PowerFit Líkamsræktarstöð. Gleðileg Jól & Farsælt Komandi Ár! 🎅</p>
             <div class="social-links">
                 <a href="#">Facebook</a>
                 <a href="#">Instagram</a>
@@ -298,14 +592,194 @@
     </footer>
     
     <script>
+        // Shopping Cart System
+        let cart = JSON.parse(localStorage.getItem('gymCart')) || [];
+        
+        // Initialize cart on page load
+        updateCartDisplay();
+        
+        // Toggle cart modal
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+            renderCart();
+            // Reset clear button when closing cart
+            if (!modal.classList.contains('active')) {
+                clearTimeout(clearCartTimeout);
+                resetClearButton();
+            }
+        }
+        
+        // Add item to cart
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const id = productCard.dataset.id;
+                const name = productCard.dataset.name;
+                const price = parseFloat(productCard.dataset.price);
+                
+                addToCart({ id, name, price });
+                
+                // Visual feedback with smooth animation
+                this.classList.add('added');
+                this.textContent = '✓ Bætt við!';
+                
+                setTimeout(() => {
+                    this.classList.remove('added');
+                    this.textContent = 'Bæta í körfu';
+                }, 1500);
+            });
+        });
+        
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            saveCart();
+            updateCartDisplay();
+        }
+        
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveCart();
+            updateCartDisplay();
+            renderCart();
+        }
+        
+        let clearCartConfirmMode = false;
+        let clearCartTimeout = null;
+        
+        function clearCart() {
+            if (cart.length === 0) {
+                return;
+            }
+            
+            const clearBtn = document.getElementById('clearCartBtn');
+            
+            if (!clearCartConfirmMode) {
+                // First click - enter confirm mode
+                clearCartConfirmMode = true;
+                clearBtn.textContent = 'Staðfesta?';
+                clearBtn.classList.add('confirm-mode');
+                
+                // Auto-reset after 3 seconds
+                clearCartTimeout = setTimeout(() => {
+                    resetClearButton();
+                }, 3000);
+            } else {
+                // Second click - actually clear the cart
+                clearTimeout(clearCartTimeout);
+                cart = [];
+                saveCart();
+                updateCartDisplay();
+                renderCart();
+                resetClearButton();
+            }
+        }
+        
+        function resetClearButton() {
+            clearCartConfirmMode = false;
+            const clearBtn = document.getElementById('clearCartBtn');
+            if (clearBtn) {
+                clearBtn.textContent = 'Hreinsa Allt';
+                clearBtn.classList.remove('confirm-mode');
+            }
+        }
+        
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+            renderCart();
+            // Reset clear button when closing cart
+            if (!modal.classList.contains('active')) {
+                clearTimeout(clearCartTimeout);
+                resetClearButton();
+            }
+        }
+        
+        function updateQuantity(id, change) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(id);
+                } else {
+                    saveCart();
+                    updateCartDisplay();
+                    renderCart();
+                }
+            }
+        }
+        
+        function saveCart() {
+            localStorage.setItem('gymCart', JSON.stringify(cart));
+        }
+        
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+        
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
+                cartTotal.textContent = '$0.00';
+                return;
+            }
+            
+            let total = 0;
+            const itemsHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+                    </div>
+                `;
+            }).join('');
+            
+            cartItems.innerHTML = itemsHTML;
+            cartTotal.textContent = '$' + total.toFixed(2);
+        }
+        
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Karfan þín er tóm!');
+                return;
+            }
+            
+            // Save cart and redirect to shop checkout
+            localStorage.setItem('gymCart', JSON.stringify(cart));
+            window.location.href = 'shop-checkout.html';
+        }
+        
         // Smooth scroll to sections with custom animation
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
-                const targetPosition = section.offsetTop - 100; // 100px offset for fixed header
+                const targetPosition = section.offsetTop - 100;
                 const startPosition = window.pageYOffset;
                 const distance = targetPosition - startPosition;
-                const duration = 1000; // 1 second animation
+                const duration = 1000;
                 let start = null;
                 
                 function animation(currentTime) {
@@ -326,16 +800,6 @@
                 requestAnimationFrame(animation);
             }
         }
-        
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function() {
-                const productCard = this.closest('.product-card');
-                const productName = productCard.querySelector('h4').textContent;
-                const productPrice = productCard.querySelector('.product-price').textContent;
-                
-                alert('🎄 Added to Cart! 🎅\n\n' + productName + '\n' + productPrice + '\n\nContinue shopping or checkout at the gym!');
-            });
-        });
     </script>
 </body>
 </html>

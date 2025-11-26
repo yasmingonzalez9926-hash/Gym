@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greiðsla - PowerFit Líkamsræktarstöð</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checkout-page {
+            padding: 120px 20px 80px;
+            background: linear-gradient(to bottom, #f0f8ff 0%, #e6f2ff 100%);
+            min-height: 100vh;
+        }
+        
+        .checkout-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .checkout-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .checkout-section h2 {
+            color: #c41e3a;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+            gap: 15px;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .item-quantity {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .item-price {
+            font-weight: bold;
+            color: #c41e3a;
+            white-space: nowrap;
+        }
+        
+        .order-totals {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .total-row.grand-total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #c41e3a;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #c41e3a;
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 20px;
+        }
+        
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .place-order-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .back-to-shop {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #c41e3a;
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        
+        .back-to-shop:hover {
+            opacity: 0.7;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-method {
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 2rem;
+        }
+        
+        .payment-method:hover {
+            border-color: #c41e3a;
+        }
+        
+        .payment-method.selected {
+            border-color: #c41e3a;
+            background: #fff5f5;
+        }
+        
+        .payment-method-label {
+            display: block;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .success-message.active {
+            display: block;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .success-message h2 {
+            color: #165b33;
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .success-btn {
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(196, 30, 58, 0.4);
+        }
+        
+        .success-btn-primary {
+            background: linear-gradient(135deg, #c41e3a 0%, #165b33 100%);
+        }
+        
+        .success-btn-secondary {
+            background: white;
+            color: #c41e3a;
+            border: 2px solid #c41e3a;
+        }
+        
+        .success-btn-secondary:hover {
+            background: #c41e3a;
+            color: white;
+            box-shadow: 0 5px 20px rgba(196, 30, 58, 0.4);
+        }
+        
+        #cardDetails {
+            display: block;
+        }
+        
+        #cardDetails.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html#home">Heim</a></li>
+                <li><a href="index.html#about">Um okkur</a></li>
+                <li><a href="pricing.html">Verðskrá</a></li>
+                <li><a href="shop.html">Verslun</a></li>
+                <li><a href="index.html#contact">Hafa samband</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="checkout-page">
+        <div class="container">
+            <a href="shop.html" class="back-to-shop">← Til baka í verslun</a>
+            <h1 style="text-align: center; color: #333; margin-bottom: 40px;">🛒 Greiðsla 🎄</h1>
+            
+            <div id="checkoutForm">
+                <div class="checkout-container">
+                    <div class="checkout-section">
+                        <h2>Greiðsluupplýsingar</h2>
+                        <form id="billingForm">
+                            <div class="form-group">
+                                <label for="fullName">Fullt nafn *</label>
+                                <input type="text" id="fullName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Netfang *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Símanúmer *</label>
+                                <input type="tel" id="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address">Heimilisfang *</label>
+                                <input type="text" id="address" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">Bær *</label>
+                                    <input type="text" id="city" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="zipCode">Póstnúmer *</label>
+                                    <input type="text" id="zipCode" required>
+                                </div>
+                            </div>
+                            
+                            <h2 style="margin-top: 30px;">Greiðslumáti</h2>
+                            
+                            <div class="payment-methods">
+                                <div class="payment-method selected" data-method="card">
+                                    💳
+                                    <span class="payment-method-label">Greiðslukort</span>
+                                </div>
+                                <div class="payment-method" data-method="paypal">
+                                    🅿️
+                                    <span class="payment-method-label">PayPal</span>
+                                </div>
+                                <div class="payment-method" data-method="cash">
+                                    💵
+                                    <span class="payment-method-label">Reiðufé við afhendingu</span>
+                                </div>
+                            </div>
+                            
+                            <div id="cardDetails">
+                                <div class="form-group">
+                                    <label for="cardNumber">Kortanúmer *</label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="expiry">Gildistími *</label>
+                                        <input type="text" id="expiry" placeholder="MM/ÁÁ" maxlength="5">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="cvv">CVV *</label>
+                                        <input type="text" id="cvv" placeholder="123" maxlength="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="checkout-section">
+                        <h2>Pöntunaryfirlit</h2>
+                        <div id="orderItems"></div>
+                        
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Millisamtala:</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Sending:</span>
+                                <span id="shipping">$5.99</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Skattur (10%):</span>
+                                <span id="tax">$0.00</span>
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Samtals:</span>
+                                <span id="grandTotal">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="place-order-btn" onclick="processPayment()">
+                            Ljúka kaupum 🎄
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="successMessage" class="success-message">
+                <div class="success-icon">✅</div>
+                <h2>Pöntun tókst!</h2>
+                <p>Takk fyrir kaupin! Pöntunin þín hefur verið staðfest og verður unnin fljótlega.</p>
+                <p style="color: #c41e3a; font-weight: bold; font-size: 1.2rem; margin: 20px 0;">Pöntunarnúmer: #<span id="orderId"></span></p>
+                <div style="display: flex; flex-direction: column; gap: 15px; max-width: 300px; margin: 0 auto;">
+                    <a href="shop.html" class="success-btn success-btn-primary">Halda áfram að versla</a>
+                    <a href="index.html" class="success-btn success-btn-secondary">Fara á forsíðu</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>🎄 &copy; 2025 PowerFit Líkamsræktarstöð. Gleðileg Jól & Farsælt Komandi Ár! 🎅</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        let selectedPaymentMethod = 'card';
+        
+        // Load cart from localStorage
+        const cart = JSON.parse(localStorage.getItem('gymCart')) || [];
+        
+        // Redirect if cart is empty
+        if (cart.length === 0) {
+            window.location.href = 'shop.html';
+        }
+        
+        // Display order items
+        function displayOrder() {
+            const orderItemsDiv = document.getElementById('orderItems');
+            let subtotal = 0;
+            
+            orderItemsDiv.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                return `
+                    <div class="order-item">
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-quantity">Magn: ${item.quantity}</div>
+                        </div>
+                        <div class="item-price">$${itemTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Calculate totals
+            const shipping = 5.99;
+            const tax = subtotal * 0.1;
+            const grandTotal = subtotal + shipping + tax;
+            
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('tax').textContent = '$' + tax.toFixed(2);
+            document.getElementById('grandTotal').textContent = '$' + grandTotal.toFixed(2);
+        }
+        
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedPaymentMethod = this.dataset.method;
+                
+                const cardDetails = document.getElementById('cardDetails');
+                if (selectedPaymentMethod === 'card') {
+                    cardDetails.classList.remove('hidden');
+                } else {
+                    cardDetails.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Format card number input
+        document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+        
+        // Format expiry date
+        document.getElementById('expiry')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+        
+        // Process payment
+        function processPayment() {
+            const form = document.getElementById('billingForm');
+            
+            // Basic validation
+            if (!form.checkValidity()) {
+                alert('Vinsamlegast fylltu út alla nauðsynlega reiti!');
+                form.reportValidity();
+                return;
+            }
+            
+            // Validate payment method specific fields
+            if (selectedPaymentMethod === 'card') {
+                const cardNumber = document.getElementById('cardNumber').value;
+                const expiry = document.getElementById('expiry').value;
+                const cvv = document.getElementById('cvv').value;
+                
+                if (!cardNumber || !expiry || !cvv) {
+                    alert('Vinsamlegast fylltu út allar kortaupplýsingar!');
+                    return;
+                }
+            }
+            
+            // Simulate payment processing
+            const orderButton = document.querySelector('.place-order-btn');
+            orderButton.disabled = true;
+            orderButton.textContent = 'Vínnsla... ⏳';
+            
+            setTimeout(() => {
+                // Generate order ID
+                const orderId = 'GYM' + Date.now().toString().slice(-8);
+                document.getElementById('orderId').textContent = orderId;
+                
+                // Show success message
+                document.getElementById('checkoutForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('active');
+                
+                // Clear cart
+                localStorage.removeItem('gymCart');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 2000);
+        }
+        
+        // Initialize
+        displayOrder();
+    </script>
+</body>
+</html>
