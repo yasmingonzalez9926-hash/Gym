@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mín Kaup - PowerFit Líkamsræktarstöð</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .purchases-page {
+            padding: 120px 20px 80px;
+            background: linear-gradient(to bottom, #f0f8ff 0%, #e6f2ff 100%);
+            min-height: 100vh;
+        }
+        
+        .purchases-page .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .purchases-page h1 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .purchases-page .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        .purchase-tabs {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: 2px solid #c41e3a;
+            background: white;
+            color: #c41e3a;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-button:hover {
+            background: #c41e3a;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: #c41e3a;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .purchase-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .purchase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .purchase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .purchase-id {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .purchase-date {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .purchase-status {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-expired {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .purchase-details {
+            display: grid;
+            gap: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            align-items: center;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .order-items {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            align-items: center;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .item-quantity {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: #c41e3a;
+            font-size: 1.1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .empty-state a {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #c41e3a;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .empty-state a:hover {
+            background: #a01628;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .purchase-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
+            <button class="hamburger-menu" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Side Navigation -->
+    <div id="sideNav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="index.html#home" onclick="closeMenu()">Heim</a>
+        <a href="index.html#about" onclick="closeMenu()">Um okkur</a>
+        <a href="pricing.html" onclick="closeMenu()">Verðskrá</a>
+        <a href="shop.html" onclick="closeMenu()">Verslun</a>
+        <a href="purchases.html" onclick="closeMenu()">Mín Kaup</a>
+        <a href="index.html#contact" onclick="closeMenu()">Hafa samband</a>
+    </div>
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+
+    <section class="purchases-page">
+        <div class="container">
+            <h1>📦 Mín Kaup</h1>
+            <p class="subtitle">Skoðaðu sögu félagsgjalda og verslunarkaupa</p>
+            
+            <div class="purchase-tabs">
+                <button class="tab-button active" onclick="switchTab('memberships')">🎫 Félagsgjöld</button>
+                <button class="tab-button" onclick="switchTab('orders')">🛍️ Verslunarkaup</button>
+            </div>
+
+            <!-- Memberships Tab -->
+            <div id="memberships-tab" class="tab-content active">
+                <div id="memberships-list"></div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders-tab" class="tab-content">
+                <div id="orders-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>🎄 &copy; 2025 PowerFit Líkamsræktarstöð. Gleðileg Jól & Farsælt Komandi Ár! 🎅</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Get membership purchases from localStorage
+        function getMembershipPurchases() {
+            return JSON.parse(localStorage.getItem('membershipPurchases')) || [];
+        }
+
+        // Get shop orders from localStorage
+        function getShopOrders() {
+            return JSON.parse(localStorage.getItem('shopOrders')) || [];
+        }
+
+        // Calculate membership status and expiry
+        function getMembershipStatus(purchaseDate, duration) {
+            const purchase = new Date(purchaseDate);
+            const today = new Date();
+            const expiryDate = new Date(purchase);
+            expiryDate.setMonth(expiryDate.getMonth() + duration);
+            
+            if (today > expiryDate) {
+                return { status: 'expired', statusText: 'Útrunnið', expiryDate };
+            } else {
+                return { status: 'active', statusText: 'Virkt', expiryDate };
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('is-IS', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        // Display memberships
+        function displayMemberships() {
+            const memberships = getMembershipPurchases();
+            const container = document.getElementById('memberships-list');
+            
+            if (memberships.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🎫 Engin Félagsgjöld</h3>
+                        <p>Þú hefur ekki keypt nein félagsgjöld ennþá.</p>
+                        <a href="pricing.html">Skoða Verðskrá</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by date (newest first)
+            memberships.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = memberships.map(membership => {
+                const { status, statusText, expiryDate } = getMembershipStatus(membership.date, membership.duration);
+                const statusClass = status === 'active' ? 'status-active' : 'status-expired';
+                
+                return `
+                    <div class="purchase-card">
+                        <div class="purchase-header">
+                            <div>
+                                <div class="purchase-id">🎫 ${membership.planName}</div>
+                                <div class="purchase-date">Keypt: ${formatDate(membership.date)}</div>
+                            </div>
+                            <span class="purchase-status ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="purchase-details">
+                            <div class="detail-row">
+                                <span class="detail-label">Mánaðarlegt verð:</span>
+                                <span class="detail-value">${membership.monthlyRate.toLocaleString('is-IS')} kr</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Lengd:</span>
+                                <span class="detail-value">${membership.duration} ${membership.duration === 1 ? 'mánuður' : 'mánuðir'}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Rennur út:</span>
+                                <span class="detail-value">${formatDate(expiryDate)}</span>
+                            </div>
+                            ${membership.savings > 0 ? `
+                            <div class="detail-row">
+                                <span class="detail-label">Sparnaður:</span>
+                                <span class="detail-value" style="color: #28a745;">${membership.savings.toLocaleString('is-IS')} kr</span>
+                            </div>
+                            ` : ''}
+                            <div class="detail-row" style="border-top: 2px solid #f0f0f0; padding-top: 15px; margin-top: 10px;">
+                                <span class="detail-label" style="font-size: 1.2rem;">Heildarupphæð:</span>
+                                <span class="detail-value" style="color: #c41e3a; font-size: 1.3rem;">${membership.totalAmount.toLocaleString('is-IS')} kr</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display shop orders
+        function displayOrders() {
+            const orders = getShopOrders();
+            const container = document.getElementById('orders-list');
+            
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>🛍️ Engar Pantanir</h3>
+                        <p>Þú hefur ekki keypt neitt úr versluninni ennþá.</p>
+                        <a href="shop.html">Fara í Verslun</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by date (newest first)
+            orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = orders.map(order => {
+                return `
+                    <div class="purchase-card">
+                        <div class="purchase-header">
+                            <div>
+                                <div class="purchase-id">🛍️ Pöntun #${order.orderId}</div>
+                                <div class="purchase-date">${formatDate(order.date)}</div>
+                            </div>
+                            <span class="purchase-status status-completed">Lokið</span>
+                        </div>
+                        <div class="purchase-details">
+                            <div class="order-items">
+                                ${order.items.map(item => `
+                                    <div class="order-item">
+                                        <div class="item-info">
+                                            <div class="item-name">${item.name}</div>
+                                            <div class="item-quantity">Magn: ${item.quantity}</div>
+                                        </div>
+                                        <div class="item-price">${Math.round(item.price * item.quantity).toLocaleString('is-IS')} kr</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Millisamtala:</span>
+                                <span class="detail-value">${order.subtotal.toLocaleString('is-IS')} kr</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Sending:</span>
+                                <span class="detail-value">${order.shipping.toLocaleString('is-IS')} kr</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Skattur:</span>
+                                <span class="detail-value">${order.tax.toLocaleString('is-IS')} kr</span>
+                            </div>
+                            <div class="detail-row" style="border-top: 2px solid #f0f0f0; padding-top: 15px; margin-top: 10px;">
+                                <span class="detail-label" style="font-size: 1.2rem;">Heildarupphæð:</span>
+                                <span class="detail-value" style="color: #c41e3a; font-size: 1.3rem;">${order.total.toLocaleString('is-IS')} kr</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize page
+        displayMemberships();
+        displayOrders();
+
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('sideNav').classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideNav').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

@@ -305,15 +305,25 @@
     <header>
         <nav>
             <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
-            <ul class="nav-links">
-                <li><a href="index.html#home">Heim</a></li>
-                <li><a href="index.html#about">Um okkur</a></li>
-                <li><a href="pricing.html">Verðskrá</a></li>
-                <li><a href="shop.html">Verslun</a></li>
-                <li><a href="index.html#contact">Hafa samband</a></li>
-            </ul>
+            <button class="hamburger-menu" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Side Navigation -->
+    <div id="sideNav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="index.html#home" onclick="closeMenu()">Heim</a>
+        <a href="index.html#about" onclick="closeMenu()">Um okkur</a>
+        <a href="pricing.html" onclick="closeMenu()">Verðskrá</a>
+        <a href="shop.html" onclick="closeMenu()">Verslun</a>
+        <a href="purchases.html" onclick="closeMenu()">Mín Kaup</a>
+        <a href="index.html#contact" onclick="closeMenu()">Hafa samband</a>
+    </div>
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
     <div class="checkout-container">
         <div class="checkout-header">
@@ -325,7 +335,7 @@
             <h2 id="plan-name">6 Mánaða Áskrift</h2>
             <div class="plan-details">
                 <span>Mánaðarlegt Verð:</span>
-                <span id="monthly-rate">$40/mánuður</span>
+                <span id="monthly-rate">7.200 kr/mánuður</span>
             </div>
             <div class="plan-details">
                 <span>Lengd:</span>
@@ -333,12 +343,12 @@
             </div>
             <div class="plan-details">
                 <span>Sparnar:</span>
-                <span id="savings">$60</span>
+                <span id="savings">7.800 kr</span>
             </div>
             <div class="total-amount">
                 <div class="plan-details">
                     <span>Heildarupphæð Í dag:</span>
-                    <span id="total-amount">$240</span>
+                    <span id="total-amount">43.200 kr</span>
                 </div>
             </div>
         </div>
@@ -447,8 +457,8 @@
             
             <div class="order-details">
                 <p><span>Áskriftaráætlun:</span> <strong id="modal-plan">6 Mánuðir</strong></p>
-                <p><span>Mánaðarlegt Verð:</span> <strong id="modal-rate">$40/mánuður</strong></p>
-                <p><span>Heildarupphæð:</span> <strong id="modal-total">$240</strong></p>
+                <p><span>Mánaðarlegt Verð:</span> <strong id="modal-rate">7.200 kr/mánuður</strong></p>
+                <p><span>Heildarupphæð:</span> <strong id="modal-total">43.200 kr</strong></p>
             </div>
             
             <p>🎁 Áskriftin þín hefur verið virkjuð!</p>
@@ -477,9 +487,9 @@
         
         // Plan pricing data
         const plans = {
-            '1': { name: '1 Mánuður', monthly: 50, duration: 1, savings: 0 },
-            '6': { name: '6 Mánuðir', monthly: 40, duration: 6, savings: 60 },
-            '12': { name: '12 Mánuðir', monthly: 30, duration: 12, savings: 240 }
+            '1': { name: '1 Mánuður', monthly: 8500, duration: 1, savings: 0 },
+            '6': { name: '6 Mánuðir', monthly: 7200, duration: 6, savings: 7800 },
+            '12': { name: '12 Mánuðir', monthly: 5900, duration: 12, savings: 31200 }
         };
         
         const selectedPlan = plans[plan];
@@ -487,10 +497,10 @@
         
         // Update page with selected plan details
         document.getElementById('plan-name').textContent = selectedPlan.name + ' Áskrift';
-        document.getElementById('monthly-rate').textContent = '$' + selectedPlan.monthly + '/mánuður';
+        document.getElementById('monthly-rate').textContent = selectedPlan.monthly.toLocaleString('is-IS') + ' kr/mánuður';
         document.getElementById('duration').textContent = selectedPlan.duration + ' mánuð' + (selectedPlan.duration > 1 ? 'ir' : 'ur');
-        document.getElementById('savings').textContent = selectedPlan.savings > 0 ? '$' + selectedPlan.savings : 'Engar';
-        document.getElementById('total-amount').textContent = '$' + total;
+        document.getElementById('savings').textContent = selectedPlan.savings > 0 ? selectedPlan.savings.toLocaleString('is-IS') + ' kr' : 'Engar';
+        document.getElementById('total-amount').textContent = total.toLocaleString('is-IS') + ' kr';
         
         // Format card number input
         document.querySelector('input[name="cardNumber"]').addEventListener('input', function(e) {
@@ -512,10 +522,24 @@
         document.getElementById('checkout-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Save membership purchase to localStorage
+            const purchase = {
+                planName: selectedPlan.name,
+                monthlyRate: selectedPlan.monthly,
+                duration: selectedPlan.duration,
+                savings: selectedPlan.savings,
+                totalAmount: total,
+                date: new Date().toISOString()
+            };
+            
+            const purchases = JSON.parse(localStorage.getItem('membershipPurchases')) || [];
+            purchases.push(purchase);
+            localStorage.setItem('membershipPurchases', JSON.stringify(purchases));
+            
             // Update modal with plan details
             document.getElementById('modal-plan').textContent = selectedPlan.name;
-            document.getElementById('modal-rate').textContent = '$' + selectedPlan.monthly + '/mánuður';
-            document.getElementById('modal-total').textContent = '$' + total;
+            document.getElementById('modal-rate').textContent = selectedPlan.monthly.toLocaleString('is-IS') + ' kr/mánuður';
+            document.getElementById('modal-total').textContent = total.toLocaleString('is-IS') + ' kr';
             
             // Show success modal
             document.getElementById('successModal').style.display = 'block';
@@ -533,6 +557,20 @@
             if (event.target == modal) {
                 closeModal();
             }
+        }
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('sideNav').classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideNav').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>

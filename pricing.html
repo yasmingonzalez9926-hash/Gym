@@ -37,15 +37,25 @@
     <header>
         <nav>
             <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
-            <ul class="nav-links">
-                <li><a href="index.html#home">Heim</a></li>
-                <li><a href="index.html#about">Um okkur</a></li>
-                <li><a href="pricing.html">Verðskrá</a></li>
-                <li><a href="shop.html">Verslun</a></li>
-                <li><a href="index.html#contact">Hafa samband</a></li>
-            </ul>
+            <button class="hamburger-menu" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Side Navigation -->
+    <div id="sideNav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="index.html#home" onclick="closeMenu()">Heim</a>
+        <a href="index.html#about" onclick="closeMenu()">Um okkur</a>
+        <a href="pricing.html" onclick="closeMenu()">Verðskrá</a>
+        <a href="shop.html" onclick="closeMenu()">Verslun</a>
+        <a href="purchases.html" onclick="closeMenu()">Mín Kaup</a>
+        <a href="index.html#contact" onclick="closeMenu()">Hafa samband</a>
+    </div>
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
     <section class="pricing-page">
         <div class="container">
@@ -56,7 +66,7 @@
                 <div class="pricing-card">
                     <h3>1 Mánuður</h3>
                     <div class="price">
-                        <span class="amount">$50</span>
+                        <span class="amount">8.500 kr</span>
                         <span class="period">/mánuður</span>
                     </div>
                     <ul class="features-list">
@@ -74,7 +84,7 @@
                     <div class="badge">🎄 Vinsælast 🎄</div>
                     <h3>6 Mánuðir</h3>
                     <div class="price">
-                        <span class="amount">$40</span>
+                        <span class="amount">7.200 kr</span>
                         <span class="period">/mánuður</span>
                     </div>
                     <ul class="features-list">
@@ -83,7 +93,7 @@
                         <li>✓ Hóptímar</li>
                         <li>✓ Búningsklefar</li>
                         <li>✓ Ókeypis WiFi</li>
-                        <li>✓ Sparaðu $60 samtals</li>
+                        <li>✓ Sparaðu 7.800 kr samtals</li>
                     </ul>
                     <button class="select-plan">Velja 6 Mánuði</button>
                 </div>
@@ -91,7 +101,7 @@
                 <div class="pricing-card">
                     <h3>12 Mánuðir</h3>
                     <div class="price">
-                        <span class="amount">$30</span>
+                        <span class="amount">5.900 kr</span>
                         <span class="period">/mánuður</span>
                     </div>
                     <ul class="features-list">
@@ -100,7 +110,7 @@
                         <li>✓ Hóptímar</li>
                         <li>✓ Búningsklefar</li>
                         <li>✓ Ókeypis WiFi</li>
-                        <li>✓ Sparaðu $240 samtals</li>
+                        <li>✓ Sparaðu 31.200 kr samtals</li>
                     </ul>
                     <button class="select-plan">Velja 12 Mánuði</button>
                 </div>
@@ -142,6 +152,20 @@
                 window.location.href = 'checkout.html?plan=' + planType;
             });
         });
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('sideNav').classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideNav').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>

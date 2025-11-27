@@ -407,20 +407,30 @@
         <nav>
             <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
             <div style="display: flex; align-items: center; gap: 15px;">
-                <ul class="nav-links">
-                    <li><a href="index.html#home">Heim</a></li>
-                    <li><a href="index.html#about">Um okkur</a></li>
-                    <li><a href="pricing.html">Verðskrá</a></li>
-                    <li><a href="shop.html">Verslun</a></li>
-                    <li><a href="index.html#contact">Hafa samband</a></li>
-                </ul>
                 <div class="cart-icon" onclick="toggleCart()">
                     🛒
                     <span class="cart-count" id="cartCount">0</span>
                 </div>
+                <button class="hamburger-menu" onclick="toggleMenu()" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </nav>
     </header>
+
+    <!-- Side Navigation -->
+    <div id="sideNav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="index.html#home" onclick="closeMenu()">Heim</a>
+        <a href="index.html#about" onclick="closeMenu()">Um okkur</a>
+        <a href="pricing.html" onclick="closeMenu()">Verðskrá</a>
+        <a href="shop.html" onclick="closeMenu()">Verslun</a>
+        <a href="purchases.html" onclick="closeMenu()">Mín Kaup</a>
+        <a href="index.html#contact" onclick="closeMenu()">Hafa samband</a>
+    </div>
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
     <!-- Shopping Cart Modal -->
     <div id="cartModal" class="cart-modal">
@@ -473,35 +483,35 @@
             <h2 class="section-title" id="protein">💪 Próteínduft</h2>
             
             <div class="shop-products">
-                <div class="product-card" data-id="1" data-name="Whey Próteín Einangrast" data-price="49.99">
+                <div class="product-card" data-id="1" data-name="Whey Próteín Einangrast" data-price="5499">
                     <div class="product-icon">🥛</div>
                     <h4>Whey Próteín Einangrast</h4>
                     <p class="description">25g próteín á skammt, súkkulauðibragð</p>
-                    <div class="product-price">$49.99</div>
+                    <div class="product-price">5.499 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="2" data-name="Grænupróteín" data-price="39.99">
+                <div class="product-card" data-id="2" data-name="Grænupróteín" data-price="4399">
                     <div class="product-icon">🌱</div>
                     <h4>Grænupróteín</h4>
                     <p class="description">Vegan, 20g próteín, veníllubrauð</p>
-                    <div class="product-price">$39.99</div>
+                    <div class="product-price">4.399 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="3" data-name="Musslaukandi" data-price="59.99">
+                <div class="product-card" data-id="3" data-name="Musslaukandi" data-price="6599">
                     <div class="product-icon">💪</div>
                     <h4>Musslaukandi</h4>
-                    <p class="description">50g próteín, 1000 kaloriu, súkkulaði</p>
-                    <div class="product-price">$59.99</div>
+                    <p class="description">50g próteín, 1000 kaloriu, súkkulauði</p>
+                    <div class="product-price">6.599 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="4" data-name="Whey Safnpróteín" data-price="39.99">
+                <div class="product-card" data-id="4" data-name="Whey Safnpróteín" data-price="4399">
                     <div class="product-icon">🥛</div>
                     <h4>Whey Safnpróteín</h4>
                     <p class="description">24g próteín, venílla, 30 skammtar</p>
-                    <div class="product-price">$39.99</div>
+                    <div class="product-price">4.399 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
             </div>
@@ -509,35 +519,35 @@
             <h2 class="section-title" id="preworkout">⚡ Æfingaörvandi</h2>
             
             <div class="shop-products">
-                <div class="product-card" data-id="5" data-name="Æfingaorka" data-price="34.99">
+                <div class="product-card" data-id="5" data-name="Æfingaorka" data-price="3799">
                     <div class="product-icon">⚡</div>
                     <h4>Æfingaorka</h4>
                     <p class="description">Sprengileg orka og einbeiting, 30 skammtar</p>
-                    <div class="product-price">$34.99</div>
+                    <div class="product-price">3.799 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="6" data-name="BCAA Orkudrykkur" data-price="29.99">
+                <div class="product-card" data-id="6" data-name="BCAA Orkudrykkur" data-price="3299">
                     <div class="product-icon">🥤</div>
                     <h4>BCAA Orkudrykkur</h4>
                     <p class="description">5g BCAAs, ekkert súkur, 12 dillir</p>
-                    <div class="product-price">$29.99</div>
+                    <div class="product-price">3.299 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="7" data-name="Kreatín Mónóhýdrat" data-price="19.99">
+                <div class="product-card" data-id="7" data-name="Kreatín Mónóhýdrat" data-price="2199">
                     <div class="product-icon">💊</div>
                     <h4>Kreatín Mónóhýdrat</h4>
                     <p class="description">5g á skammt, bræddulaust, 60 skammtar</p>
-                    <div class="product-price">$19.99</div>
+                    <div class="product-price">2.199 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="8" data-name="Rafmagnsefna Vokvi" data-price="22.99">
+                <div class="product-card" data-id="8" data-name="Rafmagnsefna Vokvi" data-price="2499">
                     <div class="product-icon">🧃</div>
                     <h4>Rafmagnsefna Vokvi</h4>
                     <p class="description">Engar kaloríur, 40 skammtar, blandöð bræðslö</p>
-                    <div class="product-price">$22.99</div>
+                    <div class="product-price">2.499 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
             </div>
@@ -545,35 +555,35 @@
             <h2 class="section-title" id="bars">🍫 Próteinstan gir</h2>
             
             <div class="shop-products">
-                <div class="product-card" data-id="9" data-name="Próteínstangir (12 Pakki)" data-price="24.99">
+                <div class="product-card" data-id="9" data-name="Próteínstangir (12 Pakki)" data-price="2799">
                     <div class="product-icon">🍫</div>
                     <h4>Próteínstangir (12 Pakki)</h4>
                     <p class="description">20g próteín, lítill súkur, margs konar bræðslö</p>
-                    <div class="product-price">$24.99</div>
+                    <div class="product-price">2.799 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="10" data-name="Próteínkökur (6 Pakki)" data-price="18.99">
+                <div class="product-card" data-id="10" data-name="Próteín kökur (6 Pakki)" data-price="2099">
                     <div class="product-icon">🍪</div>
-                    <h4>Próteínkökur (6 Pakki)</h4>
-                    <p class="description">15g próteín, mjúkbakaðar, gjafarsætar</p>
-                    <div class="product-price">$18.99</div>
+                    <h4>Próteín kökur (6 Pakki)</h4>
+                    <p class="description">15g próteín, mjúkbakaðar, gjafarSætar</p>
+                    <div class="product-price">2.099 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="11" data-name="Hnetusmör Próteín" data-price="12.99">
+                <div class="product-card" data-id="11" data-name="Hnetusmör Próteín" data-price="1499">
                     <div class="product-icon">🥜</div>
                     <h4>Hnetusmör Próteín</h4>
                     <p class="description">Náttúrulegt, 8g próteín á skammt</p>
-                    <div class="product-price">$12.99</div>
+                    <div class="product-price">1.499 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
                 
-                <div class="product-card" data-id="12" data-name="Líkamsrækt Hristi" data-price="14.99">
+                <div class="product-card" data-id="12" data-name="Líkamsrækt Hristi" data-price="1699">
                     <div class="product-icon">🧊</div>
                     <h4>Líkamsrækt Hristi</h4>
                     <p class="description">BPA-frjals, 28oz, lekaheld hönnun</p>
-                    <div class="product-price">$14.99</div>
+                    <div class="product-price">1.699 kr</div>
                     <button class="add-to-cart">Bæta í Körfu</button>
                 </div>
             </div>
@@ -732,7 +742,7 @@
             
             if (cart.length === 0) {
                 cartItems.innerHTML = '<p class="empty-cart">Your cart is empty</p>';
-                cartTotal.textContent = '$0.00';
+                cartTotal.textContent = '0 kr';
                 return;
             }
             
@@ -745,20 +755,20 @@
                     <div class="cart-item">
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            <div class="cart-item-price">${Math.round(item.price).toLocaleString('is-IS')} kr</div>
                         </div>
                         <div class="cart-item-quantity">
                             <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
                             <span>${item.quantity}</span>
                             <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
                         </div>
-                        <button class="remove-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+                        <button class="remove-btn" onclick="removeFromCart('${item.id}')">Fjarlægja</button>
                     </div>
                 `;
             }).join('');
             
             cartItems.innerHTML = itemsHTML;
-            cartTotal.textContent = '$' + total.toFixed(2);
+            cartTotal.textContent = Math.round(total).toLocaleString('is-IS') + ' kr';
         }
         
         function proceedToCheckout() {
@@ -799,6 +809,18 @@
                 
                 requestAnimationFrame(animation);
             }
+        }
+
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('sideNav').classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideNav').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>

@@ -281,15 +281,25 @@
     <header>
         <nav>
             <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
-            <ul class="nav-links">
-                <li><a href="index.html#home">Heim</a></li>
-                <li><a href="index.html#about">Um okkur</a></li>
-                <li><a href="pricing.html">Verðskrá</a></li>
-                <li><a href="shop.html">Verslun</a></li>
-                <li><a href="index.html#contact">Hafa samband</a></li>
-            </ul>
+            <button class="hamburger-menu" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Side Navigation -->
+    <div id="sideNav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="index.html#home" onclick="closeMenu()">Heim</a>
+        <a href="index.html#about" onclick="closeMenu()">Um okkur</a>
+        <a href="pricing.html" onclick="closeMenu()">Verðskrá</a>
+        <a href="shop.html" onclick="closeMenu()">Verslun</a>
+        <a href="purchases.html" onclick="closeMenu()">Mín Kaup</a>
+        <a href="index.html#contact" onclick="closeMenu()">Hafa samband</a>
+    </div>
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
     <section class="checkout-page">
         <div class="container">
@@ -378,19 +388,19 @@
                         <div class="order-totals">
                             <div class="total-row">
                                 <span>Millisamtala:</span>
-                                <span id="subtotal">$0.00</span>
+                                <span id="subtotal">0 kr</span>
                             </div>
                             <div class="total-row">
                                 <span>Sending:</span>
-                                <span id="shipping">$5.99</span>
+                                <span id="shipping">827 kr</span>
                             </div>
                             <div class="total-row">
                                 <span>Skattur (10%):</span>
-                                <span id="tax">$0.00</span>
+                                <span id="tax">0 kr</span>
                             </div>
                             <div class="total-row grand-total">
                                 <span>Samtals:</span>
-                                <span id="grandTotal">$0.00</span>
+                                <span id="grandTotal">0 kr</span>
                             </div>
                         </div>
                         
@@ -451,19 +461,19 @@
                             <div class="item-name">${item.name}</div>
                             <div class="item-quantity">Magn: ${item.quantity}</div>
                         </div>
-                        <div class="item-price">$${itemTotal.toFixed(2)}</div>
+                        <div class="item-price">${Math.round(itemTotal).toLocaleString('is-IS')} kr</div>
                     </div>
                 `;
             }).join('');
             
             // Calculate totals
-            const shipping = 5.99;
+            const shipping = 827;
             const tax = subtotal * 0.1;
             const grandTotal = subtotal + shipping + tax;
             
-            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
-            document.getElementById('tax').textContent = '$' + tax.toFixed(2);
-            document.getElementById('grandTotal').textContent = '$' + grandTotal.toFixed(2);
+            document.getElementById('subtotal').textContent = Math.round(subtotal).toLocaleString('is-IS') + ' kr';
+            document.getElementById('tax').textContent = Math.round(tax).toLocaleString('is-IS') + ' kr';
+            document.getElementById('grandTotal').textContent = Math.round(grandTotal).toLocaleString('is-IS') + ' kr';
         }
         
         // Payment method selection
@@ -531,6 +541,34 @@
                 const orderId = 'GYM' + Date.now().toString().slice(-8);
                 document.getElementById('orderId').textContent = orderId;
                 
+                // Calculate totals
+                let subtotal = 0;
+                cart.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                });
+                const shipping = 827;
+                const tax = subtotal * 0.1;
+                const total = subtotal + shipping + tax;
+                
+                // Save order to localStorage
+                const order = {
+                    orderId: orderId,
+                    date: new Date().toISOString(),
+                    items: cart.map(item => ({
+                        name: item.name,
+                        price: item.price,
+                        quantity: item.quantity
+                    })),
+                    subtotal: Math.round(subtotal),
+                    shipping: shipping,
+                    tax: Math.round(tax),
+                    total: Math.round(total)
+                };
+                
+                const orders = JSON.parse(localStorage.getItem('shopOrders')) || [];
+                orders.push(order);
+                localStorage.setItem('shopOrders', JSON.stringify(orders));
+                
                 // Show success message
                 document.getElementById('checkoutForm').style.display = 'none';
                 document.getElementById('successMessage').classList.add('active');
@@ -545,6 +583,18 @@
         
         // Initialize
         displayOrder();
+
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('sideNav').classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideNav').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>

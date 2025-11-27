@@ -10,15 +10,25 @@
     <header>
         <nav>
             <div class="logo"><a href="index.html" style="color: white; text-decoration: none;">🎅 PowerFit 🎄</a></div>
-            <ul class="nav-links">
-                <li><a href="#home">Heim</a></li>
-                <li><a href="#about">Um okkur</a></li>
-                <li><a href="pricing.html">Verðskrá</a></li>
-                <li><a href="shop.html">Verslun</a></li>
-                <li><a href="#contact">Hafa samband</a></li>
-            </ul>
+            <button class="hamburger-menu" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Side Navigation -->
+    <div id="sideNav" class="side-nav">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeMenu()">&times;</a>
+        <a href="#home" onclick="closeMenu()">Heim</a>
+        <a href="#about" onclick="closeMenu()">Um okkur</a>
+        <a href="pricing.html" onclick="closeMenu()">Verðskrá</a>
+        <a href="shop.html" onclick="closeMenu()">Verslun</a>
+        <a href="purchases.html" onclick="closeMenu()">Mín Kaup</a>
+        <a href="#contact" onclick="closeMenu()">Hafa samband</a>
+    </div>
+    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
 
     <section id="home" class="hero">
         <div class="snowflakes" aria-hidden="true">
@@ -86,6 +96,9 @@
                         <img class="slider-image active" src="images/images.jpg?v=2" alt="Gym Equipment" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out;">
                         <img class="slider-image" src="images/images2.jpg?v=2" alt="Gym Space" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out;">
                         <img class="slider-image" src="images/images3.jpg?v=2" alt="Gym Facility" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                        <img class="slider-image" src="images/gym1.jpg?v=2" alt="Gym Facility" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                        <img class="slider-image" src="images/gym2.jpg?v=2" alt="Gym Facility" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                        <img class="slider-image" src="images/gym3.jpg?v=2" alt="Gym Facility" style="position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s ease-in-out;">
                     </div>
                     
                     <!-- Navigation Arrows -->
@@ -97,6 +110,9 @@
                         <span class="dot" onclick="currentSlide(0)" style="display: inline-block; width: 15px; height: 15px; margin: 0 5px; background: #bbb; border-radius: 50%; cursor: pointer; transition: background 0.3s;"></span>
                         <span class="dot" onclick="currentSlide(1)" style="display: inline-block; width: 15px; height: 15px; margin: 0 5px; background: #bbb; border-radius: 50%; cursor: pointer; transition: background 0.3s;"></span>
                         <span class="dot" onclick="currentSlide(2)" style="display: inline-block; width: 15px; height: 15px; margin: 0 5px; background: #bbb; border-radius: 50%; cursor: pointer; transition: background 0.3s;"></span>
+                        <span class="dot" onclick="currentSlide(3)" style="display: inline-block; width: 15px; height: 15px; margin: 0 5px; background: #bbb; border-radius: 50%; cursor: pointer; transition: background 0.3s;"></span>
+                        <span class="dot" onclick="currentSlide(4)" style="display: inline-block; width: 15px; height: 15px; margin: 0 5px; background: #bbb; border-radius: 50%; cursor: pointer; transition: background 0.3s;"></span>
+                        <span class="dot" onclick="currentSlide(5)" style="display: inline-block; width: 15px; height: 15px; margin: 0 5px; background: #bbb; border-radius: 50%; cursor: pointer; transition: background 0.3s;"></span>
                     </div>
                 </div>
             </div>
@@ -240,6 +256,20 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('sideNav').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('sideNav').classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMenu() {
+            document.getElementById('sideNav').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
